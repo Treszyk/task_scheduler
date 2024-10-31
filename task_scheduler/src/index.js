@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('node:path');
+const ipcMain = require('electron').ipcMain;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -9,19 +10,19 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    frame: false,
     width: 800,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true,
-      devTools: false,
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-
-  // Open the DevTools.
+  mainWindow.setMenuBarVisibility(false);
   mainWindow.webContents.openDevTools();
 };
 
@@ -48,6 +49,14 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+
+ipcMain.on('close', () => {
+  app.quit();
+})
+
+ipcMain.handle('save', async (event) => {
+  return 'amogus';
+})
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
