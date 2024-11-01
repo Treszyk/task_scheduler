@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('node:path');
+const fs = require('fs');
 const ipcMain = require('electron').ipcMain;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -13,6 +14,7 @@ const createWindow = () => {
     frame: false,
     width: 800,
     height: 600,
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -24,6 +26,9 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
   mainWindow.setMenuBarVisibility(false);
   mainWindow.webContents.openDevTools();
+  mainWindow.once('ready-to-show', () => {
+  mainWindow.show();
+  })
 };
 
 // This method will be called when Electron has finished
@@ -54,9 +59,21 @@ ipcMain.on('close', () => {
   app.quit();
 })
 
-ipcMain.handle('save', async (event) => {
+ipcMain.handle('save', async (event, tasks) => {
+  //let test = [{id:0, description:'aaaa', deadline:'02/11/2024', finished: false}, {id:1, description:'bbbbb', deadline:'03/11/2024', finished: false}];
+  console.log(tasks);
+  fs.writeFileSync(app.getPath('userData') + "/tasks.json", JSON.stringify(tasks));
   return 'amogus';
 })
 
+ipcMain.handle('load', async (event) => {
+  if(fs.existsSync(app.getPath('userData') + "/tasks.json")) {
+    let tasks = JSON.parse(fs.readFileSync(app.getPath('userData') + "/tasks.json"));
+    return tasks;
+  } else {
+    fs.writeFileSync(app.getPath('userData') + "/tasks.json", '');
+    return [];
+  }
+})
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.

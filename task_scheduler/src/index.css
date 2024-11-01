@@ -12,7 +12,6 @@ body {
   background-color: #34353a;
   display: flex;
   flex-direction: column;
-  gap: 25px;
   border-radius: 50px;
 }
 #navbar {
@@ -26,6 +25,11 @@ body {
   cursor:pointer;
   -webkit-app-region: no-drag;
   
+}
+#task_add {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 div#tasks {
   display: flex;
