@@ -10,15 +10,42 @@
   </head>
   <body>
     <nav id="navbar"><i id="close" class="bi bi-x-square"></i></nav>
-    <h1 class="test"></h1>
     <div id="task_add">
       <form id="task_form">
-        <input id="desc" name="desc" type="text" placeholder="treść">
-        <input id="deadline" name="deadline" type="date">
-        <button id="form_submit" type="submit">DODAJ</button>
+        <div>
+          <input id="desc" name="desc" type="text" placeholder="treść"><br />
+          <input id="details" name="details" type="text" placeholder="opis">
+        </div>
+        <div>
+          <input id="deadline" name="deadline" type="date"><br />
+          <button class="btn btn-success" id="form_submit" type="submit">DODAJ</button>
+        </div>
+
       </form>
     </div>
     <div id="tasks">
+      <div id="task_prefab" class="task" style="display: none;">
+        <div class="title">
+          <span class="short_title"></span>
+          <div class="edit_buttons">
+            <i class="bi bi-x-circle" title="Zakończ"></i>
+            <i class="bi bi-check-circle" style="display: none;" title="Otwórz ponownie"></i>
+            <i class="bi bi-pencil" title="Edytuj"></i>
+            <i class="bi bi-eye-fill" style="display: none;"></i>
+            <i class="bi bi-eye-slash" style="display: none;"></i>
+          </div>
+        </div>
+        <div class="details">
+          <div class="dates">
+            <span class="base_date">Termin: 02/11/2024</span>
+            <span class="days_left">Dni do końca: 15</span>
+          </div>
+          <div class="desc">
+            <span class="description"></span>
+          </div>
+        </div>
+      </div>
+      <div class="task">1 | bbbb | 02/11/2024 | false</div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>

@@ -29,17 +29,57 @@ body {
 #task_add {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
+}
+form#task_form {
+  display: flex;
+
+}
+form#task_form input, button {
+  width: 100%;
+}
+form#task_form div {
+  width: 50%;
 }
 div#tasks {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  overflow-y: auto;
+
+  overflow-y: scroll;
 }
 div.task {
   width:80%;
+
+  border: 1px solid white;
+  margin: 10px;
+}
+
+div.title {
+  width: 100%;
+  border-bottom: 1px solid white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+div.details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+div.dates{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  max-width: 50%;
+  min-width: 50%;
+}
+div.desc {
+  max-width: 50%;
+  min-width: 50%;
   text-align: center;
 }

@@ -6,17 +6,34 @@ const close_button = document.querySelector("i#close");
 const tasks_div = document.querySelector("#tasks");
 const task_form = document.querySelector("#task_form");
 const tasks = []
+const task_prefab = document.querySelector("#task_prefab");
 let last_task_id = 0;
+
+const clamp = (val, min, max=val) => {
+    return val > max ? max : val < min ? min : val;
+}
+const create_task = (task) => {
+    console.log(task, 'tasksksksk');
+    
+    const new_task_div = document.createElement("div");
+    new_task_div.classList.add('task');
+    new_task_div.innerHTML = task_prefab.innerHTML;
+    new_task_div.querySelector('.short_title').innerHTML = task.description;
+    new_task_div.querySelector('.base_date').innerHTML = `Termin: ${task.deadline.toLocaleDateString()}`;
+    let date_diff = task.deadline.getTime() - new Date().getTime();
+    new_task_div.querySelector('.days_left').innerHTML = `Dni do końca: ${clamp(Math.round(date_diff / (1000 * 3600 * 24)), 0)}`;
+    tasks_div.appendChild(new_task_div);
+}
+
 const display_tasks = (loaded_tasks, load = false) => {
     last_task_id = 0;
     tasks_div.innerHTML = '';
     loaded_tasks.forEach(task => {
         if(!task.finished) {
-            const task_div = document.createElement("div.task");
-            task_div.innerHTML = `${task.id} | ${task.description} | ${task.deadline} | ${task.finished}`;
-            tasks_div.appendChild(task_div);
+            task.deadline = new Date(Date.parse(task.deadline));
+            create_task(task);
             if(load)
-                tasks.push(task);   
+                tasks.push(task);
         }
         last_task_id+=1;
     });
@@ -24,6 +41,7 @@ const display_tasks = (loaded_tasks, load = false) => {
 window.onload = async () => {
     console.log('onload');
     const loaded_tasks = await versions.load();
+    loaded_tasks.reverse();
     //h1.innerHTML = tasks;
     console.log(loaded_tasks);
     display_tasks(loaded_tasks, load=true);
@@ -47,7 +65,7 @@ task_form.addEventListener('submit', (e) => {
         alert('Zadne pole nie moze byc puste');
         return;
     }
-    tasks.push({id: last_task_id, description: desc, deadline: deadline, finished: false});
+    tasks.push({id: last_task_id, description: desc, deadline: new Date(Date.parse(deadline)), finished: false});
     console.log(desc, deadline);
     display_tasks(tasks);
     versions.save(tasks);
