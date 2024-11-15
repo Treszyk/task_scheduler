@@ -3,7 +3,6 @@
 const ipcRenderer = require('electron').ipcRenderer;
 const { contextBridge } = require('electron')
 
-
 const save_file = async (tasks) => {    
     let value = null;
     console.log('tasks in save_file preload', tasks);

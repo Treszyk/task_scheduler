@@ -22,19 +22,28 @@ const create_task = (task) => {
     new_task_div.querySelector('.base_date').innerHTML = `Termin: ${task.deadline.toLocaleDateString()}`;
     let date_diff = task.deadline.getTime() - new Date().getTime();
     new_task_div.querySelector('.days_left').innerHTML = `Dni do końca: ${clamp(Math.round(date_diff / (1000 * 3600 * 24)), 0)}`;
+    new_task_div.querySelector('#close').addEventListener('click', () => {close_task(task.id)});
     tasks_div.appendChild(new_task_div);
+}
+
+const close_task = (task_id) => { 
+    const task = tasks.find(t => t.id === task_id);
+    console.log(task_id, task);    
+    task.finished = true;
+    display_tasks(tasks);
+    versions.save(tasks);
 }
 
 const display_tasks = (loaded_tasks, load = false) => {
     last_task_id = 0;
     tasks_div.innerHTML = '';
     loaded_tasks.forEach(task => {
+        task.deadline = new Date(Date.parse(task.deadline));
         if(!task.finished) {
-            task.deadline = new Date(Date.parse(task.deadline));
             create_task(task);
-            if(load)
-                tasks.push(task);
         }
+        if(load)
+            tasks.push(task);
         last_task_id+=1;
     });
 }

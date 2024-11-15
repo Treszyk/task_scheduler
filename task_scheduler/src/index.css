@@ -83,3 +83,6 @@ div.desc {
   min-width: 50%;
   text-align: center;
 }
+div.edit_buttons i {
+  cursor: pointer;
+}
